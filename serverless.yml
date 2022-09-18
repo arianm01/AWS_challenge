@@ -4,7 +4,36 @@ provider:
   name: aws
   runtime: go1.x
   lambdaHashingVersion: 20201221
-  stage: api
+  stage: dev
   region: us-east-1
   environment:
-    AWS_ACCESS_KEY_ID: ${env:}
+    AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+    TABLE: ${env:AWS_TABLE}
+
+package:
+  patterns:
+    - '!./**'
+    - ./bin/**
+
+functions:
+  app:
+    handler: bin/main
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: true
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${env:AWS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
