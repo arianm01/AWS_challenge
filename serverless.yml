@@ -9,7 +9,7 @@ provider:
   environment:
     AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
-    AWS_TABLE_NAME: ${env:AWS_TABLE}
+    AWS_TABLE_NAME: ${secrets.AWS_ACCESS_KEY_ID}
 
 package:
   patterns:
@@ -30,7 +30,7 @@ resources:
     UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${env:AWS_TABLE}
+        TableName: ${secrets.AWS_ACCESS_KEY_ID}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
