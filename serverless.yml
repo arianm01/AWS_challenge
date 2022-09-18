@@ -1,0 +1,10 @@
+service: ali-ahm-aws-challenge
+
+provider:
+  name: aws
+  runtime: go1.x
+  lambdaHashingVersion: 20201221
+  stage: api
+  region: us-east-1
+  environment:
+    AWS_ACCESS_KEY_ID: ${env:}
