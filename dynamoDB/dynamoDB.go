@@ -23,7 +23,7 @@ func GetDynamodb() *dynamodb.DynamoDB {
 
 func PutItemInDB(db dynamodb.DynamoDB, device models.Device) error {
 	deviceMap, _ := dynamodbattribute.MarshalMap(device)
-	tableName := "devices"
+	tableName := os.Getenv("AWS_TABLE_NAME")
 	data := &dynamodb.PutItemInput{
 		Item:      deviceMap,
 		TableName: aws.String(tableName),
@@ -36,7 +36,7 @@ func PutItemInDB(db dynamodb.DynamoDB, device models.Device) error {
 }
 
 func GetDevice(db dynamodb.DynamoDB, id string) (models.Device, error) {
-	tableName := "devices"
+	tableName := os.Getenv("AWS_TABLE_NAME")
 	result, err := db.GetItem(&dynamodb.GetItemInput{
 		TableName: aws.String(tableName),
 		Key: map[string]*dynamodb.AttributeValue{
