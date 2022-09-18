@@ -11,11 +11,6 @@ provider:
     AWS_SECRET_ACCESS_KEY: ${secrets.AWS_SECRET_ACCESS_KEY}
     AWS_TABLE_NAME: ${secrets.AWS_ACCESS_KEY_ID}
 
-package:
-  patterns:
-    - '!./**'
-    - ./bin/**
-
 functions:
   app:
     handler: bin/main
