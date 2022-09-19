@@ -13,17 +13,17 @@ import (
 
 func GetDynamodb() *dynamodb.DynamoDB {
 	sess := session.Must(session.NewSession(&aws.Config{
-		Region: aws.String(os.Getenv("DYNAMODB_REGION")),
+		Region: aws.String("us-east-1"),
 		Credentials: credentials.NewStaticCredentials(
-			os.Getenv("AWS_ACCESS_KEY_ID"),
-			os.Getenv("AWS_SECRET_ACCESS_KEY"), ""),
+			os.Getenv("ACCESS_KEY_ID"),
+			os.Getenv("SECRET_ACCESS_KEY"), ""),
 	}))
 	return dynamodb.New(sess)
 }
 
 func PutItemInDB(db dynamodb.DynamoDB, device models.Device) error {
 	deviceMap, _ := dynamodbattribute.MarshalMap(device)
-	tableName := os.Getenv("AWS_TABLE_NAME")
+	tableName := "aws_table_device"
 	data := &dynamodb.PutItemInput{
 		Item:      deviceMap,
 		TableName: aws.String(tableName),
@@ -36,7 +36,7 @@ func PutItemInDB(db dynamodb.DynamoDB, device models.Device) error {
 }
 
 func GetDevice(db dynamodb.DynamoDB, id string) (models.Device, error) {
-	tableName := os.Getenv("AWS_TABLE_NAME")
+	tableName := "aws_table_device"
 	result, err := db.GetItem(&dynamodb.GetItemInput{
 		TableName: aws.String(tableName),
 		Key: map[string]*dynamodb.AttributeValue{
