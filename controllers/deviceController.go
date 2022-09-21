@@ -21,7 +21,10 @@ func CreateDevice(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	db := dynamoDB.GetDynamodb()
-	err := dynamoDB.PutItemInDB(*db, device)
+	service := &dynamoDB.Core{
+		Db: db,
+	}
+	err := dynamoDB.PutItemInDB(service.Db, device)
 	if err != nil {
 		log.Println(err)
 		services.SendError(writer, "internal server error", http.StatusInternalServerError)
@@ -33,7 +36,10 @@ func CreateDevice(writer http.ResponseWriter, request *http.Request) {
 func GetDevice(writer http.ResponseWriter, request *http.Request) {
 	db := dynamoDB.GetDynamodb()
 	params := mux.Vars(request)
-	result, err := dynamoDB.GetDevice(*db, params["id"])
+	service := &dynamoDB.Core{
+		Db: db,
+	}
+	result, err := dynamoDB.GetDevice(service.Db, params["id"])
 	if err != nil {
 		if err.Error() == "internal Server Error" {
 			services.SendError(writer, err.Error(), http.StatusInternalServerError)

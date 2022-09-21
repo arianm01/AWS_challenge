@@ -11,6 +11,15 @@ import (
 	"os"
 )
 
+type DeviceDynamoDB interface {
+	PutItem(*dynamodb.PutItemInput) (*dynamodb.PutItemOutput, error)
+	GetItem(*dynamodb.GetItemInput) (*dynamodb.GetItemOutput, error)
+}
+
+type Core struct {
+	Db DeviceDynamoDB
+}
+
 func GetDynamodb() *dynamodb.DynamoDB {
 	sess := session.Must(session.NewSession(&aws.Config{
 		Region: aws.String("us-east-1"),
@@ -21,7 +30,7 @@ func GetDynamodb() *dynamodb.DynamoDB {
 	return dynamodb.New(sess)
 }
 
-func PutItemInDB(db dynamodb.DynamoDB, device models.Device) error {
+func PutItemInDB(db DeviceDynamoDB, device models.Device) error {
 	deviceMap, _ := dynamodbattribute.MarshalMap(device)
 	tableName := "aws_table_device"
 	data := &dynamodb.PutItemInput{
@@ -35,7 +44,7 @@ func PutItemInDB(db dynamodb.DynamoDB, device models.Device) error {
 	return nil
 }
 
-func GetDevice(db dynamodb.DynamoDB, id string) (models.Device, error) {
+func GetDevice(db DeviceDynamoDB, id string) (models.Device, error) {
 	tableName := "aws_table_device"
 	result, err := db.GetItem(&dynamodb.GetItemInput{
 		TableName: aws.String(tableName),
