@@ -1,0 +1,12 @@
+mode: set
+AWS_Challenge/controllers/deviceController.go:14.70,18.55 3 1
+AWS_Challenge/controllers/deviceController.go:23.2,28.16 4 1
+AWS_Challenge/controllers/deviceController.go:33.2,33.58 1 1
+AWS_Challenge/controllers/deviceController.go:18.55,22.3 3 1
+AWS_Challenge/controllers/deviceController.go:28.16,32.3 3 1
+AWS_Challenge/controllers/deviceController.go:36.67,43.16 5 1
+AWS_Challenge/controllers/deviceController.go:51.2,51.53 1 1
+AWS_Challenge/controllers/deviceController.go:43.16,44.45 1 1
+AWS_Challenge/controllers/deviceController.go:49.3,49.9 1 1
+AWS_Challenge/controllers/deviceController.go:44.45,46.4 1 1
+AWS_Challenge/controllers/deviceController.go:46.9,48.4 1 1

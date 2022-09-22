@@ -43,8 +43,6 @@ func GetDevice(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		if err.Error() == "internal Server Error" {
 			services.SendError(writer, err.Error(), http.StatusInternalServerError)
-		} else if err.Error() == "device is not valid" {
-			services.SendError(writer, err.Error(), http.StatusNotAcceptable)
 		} else {
 			services.SendError(writer, err.Error(), http.StatusNotFound)
 		}

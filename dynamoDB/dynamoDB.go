@@ -32,7 +32,7 @@ func GetDynamodb() *dynamodb.DynamoDB {
 
 func PutItemInDB(db DeviceDynamoDB, device models.Device) error {
 	deviceMap, _ := dynamodbattribute.MarshalMap(device)
-	tableName := "aws_table_device"
+	tableName := os.Getenv("AWS_TABLE_NAME")
 	data := &dynamodb.PutItemInput{
 		Item:      deviceMap,
 		TableName: aws.String(tableName),
@@ -45,7 +45,7 @@ func PutItemInDB(db DeviceDynamoDB, device models.Device) error {
 }
 
 func GetDevice(db DeviceDynamoDB, id string) (models.Device, error) {
-	tableName := "aws_table_device"
+	tableName := os.Getenv("AWS_TABLE_NAME")
 	result, err := db.GetItem(&dynamodb.GetItemInput{
 		TableName: aws.String(tableName),
 		Key: map[string]*dynamodb.AttributeValue{
@@ -62,9 +62,6 @@ func GetDevice(db DeviceDynamoDB, id string) (models.Device, error) {
 		return models.Device{}, errors.New(msg)
 	}
 	var device models.Device
-	err = dynamodbattribute.UnmarshalMap(result.Item, &device)
-	if err != nil {
-		return models.Device{}, errors.New("device is not valid")
-	}
+	_ = dynamodbattribute.UnmarshalMap(result.Item, &device)
 	return device, nil
 }
